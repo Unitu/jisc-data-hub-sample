@@ -18,6 +18,7 @@
 
 	var getInstitutions = function(token, callback) {
 		request({
+			method: 'post',
 			url: 'http://jisc-datahub.azurewebsites.net/api/rest_companies',
 			qs: {
 				companyType: 'institution',

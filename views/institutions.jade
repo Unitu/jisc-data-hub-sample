@@ -8,7 +8,7 @@ block page-body
 		p.alert.alert-danger No data was returned, or an error ocurred.
 	else
 		for d in data
-			pre= d
+			pre= JSON.stringify(d, null, 4)
 
 	hr
 	a(href='/') Back to Home
