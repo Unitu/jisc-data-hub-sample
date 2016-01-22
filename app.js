@@ -36,17 +36,18 @@ router.post('/login', function(req, res) {
 	password = req.body.password;
 
 	// request a token
-	var token = dataHub.getToken(email, password);
-	if (token == null) {
-		res.redirect('/login');
-		res.end();
-		return;
-	}
-
-	// store token and continue
-	req.session.token = token;
-	res.redirect('/');
-	res.end();
+	dataHub.getToken(email, password, function(token) {
+		if (token == null) {
+			// back to login
+			res.redirect('/login');
+			res.end();
+		} else {
+			// store token and continue
+			req.session.token = token;
+			res.redirect('/');
+			res.end();
+		}
+	});
 });
 router.get('/logout', function(req, res) {
 	req.session.token = undefined;
