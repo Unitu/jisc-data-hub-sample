@@ -16,8 +16,25 @@
 		});
 	};
 
+	var getInstitutions = function(token, callback) {
+		request({
+			url: 'http://jisc-datahub.azurewebsites.net/api/rest_companies',
+			qs: {
+				companyType: 'institution',
+				access_token: token
+			}
+		}, function(err, res, body) {
+			console.log(err);
+			console.log(res);
+			console.log(body);
+			if (err || res.statusCode != 200) return callback(null);
+			callback(JSON.parse(body));
+		});
+	};
+
 	module.exports = {
-		getToken: getToken
+		getToken: getToken,
+		getInstitutions: getInstitutions
 	};
 
 }());

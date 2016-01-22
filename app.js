@@ -54,6 +54,17 @@ router.get('/logout', function(req, res) {
 	res.redirect('/login');
 	res.end();
 });
+router.get('/institutions', function(req, res) {
+	var sess = req.session;
+	if (sess.token) {
+		dataHub.getInstitutions(sess.token, function(data) {
+			res.render('institutions', {data: data});
+		});
+	} else {
+		res.redirect('/login');
+		res.end();
+	}
+});
 app.use('/', router);
 
 // squash favicon 404s
