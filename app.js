@@ -1,13 +1,57 @@
 // requirements
 var express = require('express'),
 path = require('path'),
-dataHub = require('./data-hub'),
-app = express(),
+session = require('express-session'),
+bodyParser = require('body-parser'),
+dataHub = require('./data-hub');
+
+// server config
+var app = express()
 router = express.Router();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(session({
+	secret: 'data-hub-sample',
+	resave: false,
+	saveUninitialized: false
+}));
 
 // routes
 router.get('/', function(req, res) {
-	res.json(dataHub.getToken('a','b'));
+	// check session token
+	var sess = req.session;
+	if (sess.token) {
+		res.render('index', {token: sess.token});
+	} else {
+		res.redirect('/login');
+		res.end();
+	}
+});
+router.get('/login', function(req, res) {
+	res.render('login');
+});
+router.post('/login', function(req, res) {
+	// get attrs
+	var email = req.body.email,
+	password = req.body.password;
+
+	// request a token
+	var token = dataHub.getToken(email, password);
+	if (token == null) {
+		res.redirect('/login');
+		res.end();
+		return;
+	}
+
+	// store token and continue
+	req.session.token = token;
+	res.redirect('/');
+	res.end();
+});
+router.get('/logout', function(req, res) {
+	req.session.token = undefined;
+	res.redirect('/login');
+	res.end();
 });
 app.use('/', router);
 

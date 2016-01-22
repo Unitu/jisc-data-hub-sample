@@ -1,0 +1,11 @@
+extends _shared/root-layout
+
+block page-body
+
+	h2 You Are Logged In
+	p Your token is:
+	pre= token
+
+	h2 Options
+	ul
+		li: a(href='/logout') Logout

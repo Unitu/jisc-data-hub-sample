@@ -1,0 +1,15 @@
+extends _shared/root-layout
+
+block page-body
+
+	h2 Login
+	form(action='/login' method='post')
+		fieldset.form-group
+			label.control-label(for='email') Email Address
+			input.form-control(type='text' id='email' name='email')
+		fieldset.form-group
+			label.control-label(for='password') Password
+			input.form-control(type='password' id='passsword' name='password')
+		fieldset.form-group
+			button.btn.btn-primary(type='submit') Login
+
