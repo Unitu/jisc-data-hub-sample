@@ -4,14 +4,13 @@
 
 	var getToken = function (email, password, callback) {
 		var data = {form: {username: email, password: password}};
-		console.log(data);
 		request.post('http://jisc-datahub.azurewebsites.net/login', data, function(err, res, body) {
 			if (!err && res.statusCode == 200) {
 				body = JSON.parse(body);
-				console.log(body);
 				if (body.success) return callback(body.access_token);
 			}
-				// error fallback
+
+			// error fallback
 			console.log(err);
 			callback(null);
 		});
