@@ -1,0 +1,14 @@
+extends _shared/root-layout
+
+block page-body
+
+	h2 Institutions
+
+	if (data == null)
+		p.alert.alert-danger No data was returned, or an error ocurred.
+	else
+		for d in data
+			pre= d
+
+	hr
+	a(href='/') Back to Home
